@@ -2,8 +2,9 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
+const API_KEY = import.meta.env.VITE_FIREBASE_KEY;
 const firebaseConfig = {
-  apiKey: process.app.FIREBASE_API_KEY,
+  apiKey: API_KEY,
   authDomain: "survey-tool-5afd9.firebaseapp.com",
   projectId: "survey-tool-5afd9",
   storageBucket: "survey-tool-5afd9.appspot.com",
