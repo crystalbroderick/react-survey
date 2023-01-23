@@ -1,13 +1,24 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
-import { Route } from 'react-router-dom'
+import './assets/custom.scss'
+import { Route, Routes } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
-
+import Templates from './pages/templates'
 function App() {
 
   return (
-    <Container></Container>
+    <Container>
+     <Routes>
+      <Route path='/' element={<Templates/>}/>
+      <Route
+              path="*"
+              element={
+                <main style={{ padding: "1rem" }}>
+                  <p>ERROR: Page not found!</p>
+                </main>
+              }
+            />
+     </Routes>
+    </Container>
   )
 }
 
