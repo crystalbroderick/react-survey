@@ -1,0 +1,30 @@
+// redefined variables
+$primary: #f26419;
+
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+
+$custom-colors: (
+  "charcol": #2f4858,
+  "queenblue": #33658a,
+  "darkskyblue": #86bbd8,
+  "honey": #f6ae2d,
+  "orangered": #f26419
+
+);
+
+$font-family-base: "Montserratlight";
+// Merge the color maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+// all bootstrap (needs to be at bottom)
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+.page-title {
+	font-family: "Montserrat";
+	font-weight: 700;
+	margin-bottom: 1em;
+  color:$primary;
+}
+
