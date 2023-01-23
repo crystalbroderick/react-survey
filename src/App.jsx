@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './assets/custom.scss'
 import { Route, Routes } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
