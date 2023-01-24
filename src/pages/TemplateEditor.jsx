@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import EditorForm from "../components/EditorForm"
 import TemplateData from "../data/templates.data"
 import { useId } from "react"
 import { Container } from "react-bootstrap"
+import { useAuth, AuthContext } from "../context/AuthContext"
+import { addDoc, Timestamp, collection } from "firebase/firestore"
+import db from "../firebase.config.js"
+import "firebase/firestore"
+
 function TemplateEditor() {
   const { id } = useParams()
   const [questions, setQuestions] = useState([])
@@ -11,6 +16,9 @@ function TemplateEditor() {
   const [survey, setSurvey] = useState({})
   const randomId = useId()
   const [newId, setNewId] = useState(randomId)
+  const navigate = useNavigate()
+  const { currentUser } = useAuth()
+
   function handleInfoChange(e) {
     const { name, value } = e.target
     setSurvey((curr) => {
@@ -48,6 +56,36 @@ function TemplateEditor() {
     setQuestions(newQuestions)
   }
 
+  // Add new user survey to database
+  async function addSurvey() {
+    const surveysRef = collection(db, "surveys")
+    const newSurvey = {
+      title: survey.title,
+      desc: survey.desc,
+      uid: currentUser.uid,
+      created: Timestamp.now(),
+    }
+    // create new survey
+    const docRef = await addDoc(surveysRef, newSurvey)
+
+    if (docRef) {
+      //add questions to survey
+      await questions
+        .forEach((doc) => {
+          console.log("docs:", doc)
+          const questionsRef = collection(db, "surveys", docRef.id, "questions")
+
+          const ref = addDoc(questionsRef, {
+            title: doc.title,
+            type: doc.type,
+            options: doc.options || "",
+          })
+          navigate("/surveys")
+        })
+        .catch((e) => console.log("Error adding questions..", e))
+    }
+  }
+
   useEffect(() => {
     const getTemplateInfo = async () => {
       const docSnap = await TemplateData.getTemplate(id)
@@ -80,6 +118,7 @@ function TemplateEditor() {
           updateQuestion={updateQuestion}
           updateQuestionOptions={updateQuestionOptions}
           handleDelete={handleDelete}
+          addSurvey={addSurvey}
         />
       )}
     </Container>

@@ -1,6 +1,13 @@
 import React, { useState } from "react"
 import { Form, Button, Stack, Row, Col } from "react-bootstrap"
 import Question from "./Question"
+import { useNavigate } from "react-router-dom"
+import { useAuth, AuthContext } from "../context/AuthContext"
+import { addDoc, Timestamp, collection } from "firebase/firestore"
+import db from "../firebase.config.js"
+import "firebase/firestore"
+import SurveyData from "../data/surveys.data"
+
 function EditorForm({
   survey,
   questions,
@@ -9,32 +16,32 @@ function EditorForm({
   updateQuestion,
   updateQuestionOptions,
   handleDelete,
+  addSurvey,
 }) {
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
-  const checkValidated = () => {
+
+  // Validates fields before calling addSurvey
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     const allErrors = {}
+    // validation
     if (survey.title === "") {
       allErrors.title = "Please enter a title"
     }
+    // checks for undefined, not all templates have descriptions
     if (survey.desc === "" || typeof survey.desc === "undefined") {
       allErrors.desc = "Please enter a description"
     }
 
+    console.log(survey)
     const isEmpty = Object.keys(allErrors).length === 0
     if (!isEmpty) {
       setErrors(allErrors)
       setValidated(false)
     } else {
       setValidated(true)
-    }
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    checkValidated()
-    if (validated) {
-      console.log("validated!")
+      addSurvey()
     }
   }
 
@@ -81,14 +88,15 @@ function EditorForm({
         </Stack>
         <Row className="mt-3">
           <Col>
-            <Button variant="darkskyblue" onClick={handleAdd}>
-              Add Question
+            <Button variant="silverpink" size="lg" onClick={handleAdd}>
+              + Add Question
             </Button>
           </Col>
           <Col className="d-flex justify-content-end">
             <Button
-              variant="honey"
+              variant="primary"
               type="submit"
+              size="lg"
               onSubmit={(e) => handleSubmit(e)}>
               Submit
             </Button>

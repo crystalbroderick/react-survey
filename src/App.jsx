@@ -8,8 +8,6 @@ import Login from "./pages/Login"
 import Templates from "./pages/Templates"
 import Surveys from "./pages/Surveys"
 import Header from "./components/Header"
-import { Container } from "react-bootstrap"
-import "./assets/styles.css"
 
 function App() {
   const auth = getAuth()

@@ -19,14 +19,14 @@ function Templates() {
     getTemplates()
   }, [])
   return (
-    <Container>
+    <Container className="p-3">
       <h1 className="page-title">Templates</h1>
 
-      <Row xs={2} md={3} className="g-3">
+      <Row xs={1} md={3} className="g-3">
         {templates.map((template) => (
           <Col key={template.id}>
             <Card
-              bg="darkskyblue"
+              bg="almond"
               className="shadow p-3 mb-5 rounded h-75 "
               key={template.id}>
               <Card.Body>
@@ -35,7 +35,7 @@ function Templates() {
               </Card.Body>{" "}
               <div className="d-flex justify-content-end align-items-end">
                 <Link
-                  className="btn btn-queenblue "
+                  className="btn btn-helliogray text-white shadow-sm button-card"
                   to={`/template/${template.id}`}
                   state={{
                     title: template.title,
