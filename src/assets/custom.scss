@@ -1,17 +1,15 @@
 // redefined variables
-$primary: #f26419;
+$primary: #4a4e69;
 
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
 
-
 $custom-colors: (
-  "charcol": #2f4858,
-  "queenblue": #33658a,
-  "darkskyblue": #86bbd8,
-  "honey": #f6ae2d,
-  "orangered": #f26419
-
+  "space": #22223b,
+  "indep": #4a4e69,
+  "helliogray": #9a8c98,
+  "silverpink": #c9ada7,
+  "almond": #f2e9e4,
 );
 
 $font-family-base: "Montserratlight";
@@ -22,9 +20,9 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 .page-title {
-	font-family: "Montserrat";
-	font-weight: 500;
-	margin-bottom: 1em;
-  color:$primary;
+  font-weight: 500;
+  margin-bottom: 1em;
+  color: $primary;
+  margin-top: 1em;
+  letter-spacing: 3px;
 }
-
