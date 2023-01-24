@@ -1,5 +1,5 @@
 import { useRef, useState } from "react"
-import { Form, Row, Col, Card, Container } from "react-bootstrap/"
+import { Form, Row, Col, Card, Container, Button } from "react-bootstrap/"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 function Login() {
@@ -21,43 +21,31 @@ function Login() {
     } catch {
       setError("Failed to sign in")
     }
-    setLoading(false)
-    navigate("/templates")
+    navigate("/surveys")
   }
 
   return (
     <section className="vh-100 bg-darkskyblue p-5">
       <Row className="d-flex justify-content-center align-items-center">
         <Card className="p-3" style={{ maxWidth: "400px" }}>
-          <Form onSubmit={handleSubmit}>
-            <div className="d-flex align-items-center mb-3 pb-1">
-              <h1>Survey Creator</h1>
-            </div>
-
-            <h5 className="fw-normal " style={{ letterSpacing: "1px" }}>
-              Sign into your account
-            </h5>
-
-            <div className="form-outline mb-4">
-              <Form.Group controlId="loginEmail">
+          <Card.Body>
+            <h2 className="text-center mb-4">Log In</h2>
+            {error && <Alert severity="error">{error}</Alert>}
+            <Form onSubmit={handleSubmit}>
+              <Form.Group id="email">
                 <Form.Label>Email</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
+                <Form.Control type="email" ref={emailRef} required />
               </Form.Group>
-            </div>
-
-            <div className="form-outline mb-4">
-              <Form.Group controlId="loginPassword">
+              <Form.Group id="password">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" />
+                <Form.Control type="password" ref={passwordRef} required />
               </Form.Group>
-            </div>
 
-            <div className="pt-1 mb-4">
-              <button className="btn btn-dark btn-lg btn-block" type="submit">
-                Login
-              </button>
-            </div>
-          </Form>
+              <Button disabled={loading} className="w-100 mt-3" type="submit">
+                Log In
+              </Button>
+            </Form>
+          </Card.Body>
         </Card>
       </Row>
     </section>
