@@ -1,5 +1,5 @@
-import { Form, Row, Col, Button } from "react-bootstrap/";
-
+import { Form, Row, Col, Button, Image } from "react-bootstrap/"
+import deleteIcon from "../assets/trashcan.png"
 export default function Question({
   question,
   qNum,
@@ -8,21 +8,29 @@ export default function Question({
   handleDelete,
 }) {
   function handleQuestion(e) {
-    updateQuestion(question.id, e.target.name, e.target.value);
+    updateQuestion(question.id, e.target.name, e.target.value)
   }
 
   return (
     <>
       <Form.Group className="mb-3" controlId={`question` + qNum}>
-        <Row>
-          <Col sm={8}>
-            <Form.Label className="h4 text-darkblue">
+        <Row className="mb-3" xs={2}>
+          <Col md={4}>
+            <Form.Label className="h4 text-darkblue mt-2">
               Question {qNum}
             </Form.Label>
           </Col>
-          <Col sm={4} className="d-flex justify-content-end mb-3">
+          <Col
+            md={{ span: 4, offset: 4 }}
+            className="d-flex justify-content-end">
             {" "}
-            <Button onClick={(e) => handleDelete(question.id)}>Delete</Button>
+            <Button variant="light" onClick={(e) => handleDelete(question.id)}>
+              <Image
+                src={deleteIcon}
+                alt="delete"
+                style={{ height: "1.5em", width: "1.5em" }}
+              />
+            </Button>
           </Col>
         </Row>
         <Form.Control
@@ -38,8 +46,7 @@ export default function Question({
           value={question.type ? question.type : "Select response type"}
           aria-label="Response Type Drop Down"
           name="type"
-          onChange={(e) => handleQuestion(e)}
-        >
+          onChange={(e) => handleQuestion(e)}>
           <option>Response Type</option>
           <option value="rating">Rating</option>
           <option value="short">Short Text</option>
@@ -47,5 +54,5 @@ export default function Question({
         </Form.Select>
       </Form.Group>
     </>
-  );
+  )
 }

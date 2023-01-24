@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Form, Button, Stack, Row, Col } from "react-bootstrap";
-import Question from "./Question";
+import React, { useState } from "react"
+import { Form, Button, Stack, Row, Col } from "react-bootstrap"
+import Question from "./Question"
 function EditorForm({
   survey,
   questions,
@@ -10,33 +10,33 @@ function EditorForm({
   updateQuestionOptions,
   handleDelete,
 }) {
-  const [validated, setValidated] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [validated, setValidated] = useState(false)
+  const [errors, setErrors] = useState({})
   const checkValidated = () => {
-    const allErrors = {};
+    const allErrors = {}
     if (survey.title === "") {
-      allErrors.title = "Please enter a title";
+      allErrors.title = "Please enter a title"
     }
     if (survey.desc === "" || typeof survey.desc === "undefined") {
-      allErrors.desc = "Please enter a description";
+      allErrors.desc = "Please enter a description"
     }
 
-    const isEmpty = Object.keys(allErrors).length === 0;
+    const isEmpty = Object.keys(allErrors).length === 0
     if (!isEmpty) {
-      setErrors(allErrors);
-      setValidated(false);
+      setErrors(allErrors)
+      setValidated(false)
     } else {
-      setValidated(true);
+      setValidated(true)
     }
-  };
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    checkValidated();
+    e.preventDefault()
+    checkValidated()
     if (validated) {
-      console.log("validated!");
+      console.log("validated!")
     }
-  };
+  }
 
   return (
     <div>
@@ -75,30 +75,28 @@ function EditorForm({
                 qNum={i + 1}
                 updateQuestion={updateQuestion}
                 updateQuestionOptions={updateQuestionOptions}
-                handleDelete={handleDelete}
-              ></Question>
+                handleDelete={handleDelete}></Question>
             </div>
           ))}
         </Stack>
-        <Row>
+        <Row className="mt-3">
           <Col>
-            <Button variant="darkskyblue" className="mt-3" onClick={handleAdd}>
+            <Button variant="darkskyblue" onClick={handleAdd}>
               Add Question
             </Button>
           </Col>
-          <Col className="d-flex justify-content-end mt-3">
+          <Col className="d-flex justify-content-end">
             <Button
               variant="honey"
               type="submit"
-              onSubmit={(e) => handleSubmit(e)}
-            >
+              onSubmit={(e) => handleSubmit(e)}>
               Submit
             </Button>
           </Col>
         </Row>
       </Form>
     </div>
-  );
+  )
 }
 
-export default EditorForm;
+export default EditorForm
