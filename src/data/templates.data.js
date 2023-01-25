@@ -1,4 +1,4 @@
-import db from "../firebase.config.js";
+import db from "../firebase.config.js"
 import {
   collection,
   getDoc,
@@ -7,38 +7,37 @@ import {
   updateDoc,
   deleteDoc,
   getDocs,
-} from "firebase/firestore";
+} from "firebase/firestore"
 
-const templatesRef = collection(db, "templates");
+const templatesRef = collection(db, "templates")
 
 class TemplateData {
   addTemplate = (newTemplate) => {
-    return addDoc(templatesRef, newTemplate);
-  };
+    return addDoc(templatesRef, newTemplate)
+  }
 
   updateTemplate = (id, updatedTemplate) => {
-    const templateDoc = doc(db, "templates", id);
-    return updateDoc(templateDoc, updatedTemplate);
-  };
+    const templateDoc = doc(db, "templates", id)
+    return updateDoc(templateDoc, updatedTemplate)
+  }
 
   deleteTemplate = (id) => {
-    const templateDoc = doc(db, "templates", id);
-    return deleteDoc(templateDoc);
-  };
+    const templateDoc = doc(db, "templates", id)
+    return deleteDoc(templateDoc)
+  }
 
   getAllTemplates = () => {
-    return getDocs(templatesRef);
-  };
+    return getDocs(templatesRef)
+  }
 
   getTemplate = (id) => {
-    const templateDoc = doc(db, "templates", id);
-    return getDoc(templateDoc);
-  };
+    const templateDoc = doc(db, "templates", id)
+    return getDoc(templateDoc)
+  }
 
   getTemplateQuestions = (id) => {
-    //const questionsRef =  collection(db, 'templates', id, 'questions');
-    const q = collection(db, "templates", id, "questions");
-    return getDocs(q);
-  };
+    const q = collection(db, "templates", id, "questions")
+    return getDocs(q)
+  }
 }
-export default new TemplateData();
+export default new TemplateData()

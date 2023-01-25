@@ -7,6 +7,7 @@ import {
   getDocs,
   where,
   query,
+  getDoc,
 } from "firebase/firestore"
 
 const surveysRef = collection(db, "surveys")
@@ -29,13 +30,22 @@ class SurveyData {
 
   // Get all surveys in database
   getAllSurveys = () => {
-    console.log(surveysRef)
     return getDocs(surveysRef)
+  }
+
+  getSurvey = (id) => {
+    const surveyDoc = doc(db, "surveys", id)
+    return getDoc(surveyDoc)
   }
 
   // Get user specific surveys
   getUserSurveys = (uid) => {
     return getDocs(query(surveysRef, where("uid", "==", uid)))
+  }
+
+  getSurveyQuestions = (id) => {
+    const q = collection(db, "surveys", id, "questions")
+    return getDocs(q)
   }
 
   // Delete survey
