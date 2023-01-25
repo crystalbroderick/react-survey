@@ -1,5 +1,5 @@
 import { useRef, useState } from "react"
-import { Form, Row, Col, Card, Container, Button } from "react-bootstrap/"
+import { Alert, Form, Row, Card, Button } from "react-bootstrap/"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 function Login() {
@@ -8,20 +8,18 @@ function Login() {
   const { login } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
 
   async function handleSubmit(e) {
     e.preventDefault()
-
     try {
       setError("")
       setLoading(true)
-
       await login(emailRef.current.value, passwordRef.current.value)
     } catch {
-      setError("Failed to sign in")
+      setError("Failed to log in")
     }
-    navigate("/surveys")
+
+    setLoading(false)
   }
 
   return (
@@ -30,7 +28,7 @@ function Login() {
         <Card className="p-3" style={{ maxWidth: "400px" }}>
           <Card.Body>
             <h2 className="text-center mb-4">Log In</h2>
-            {error && <Alert severity="error">{error}</Alert>}
+            {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Form.Group id="email">
                 <Form.Label>Email</Form.Label>
