@@ -17,7 +17,7 @@ function Header({ isLoggedIn }) {
   return (
     <Navbar bg="almond" variant="light" expand="lg">
       <Container>
-        <Navbar.Brand href="/">SLC Survey Creator</Navbar.Brand>
+        <Navbar.Brand href="/">Survey Creator</Navbar.Brand>
         {isLoggedIn && currentUser ? (
           <Nav className="justify-content-end">
             <Nav.Link as={Link} to="/surveys">
