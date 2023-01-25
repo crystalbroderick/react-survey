@@ -1,12 +1,6 @@
 import React, { useState } from "react"
 import { Form, Button, Stack, Row, Col } from "react-bootstrap"
 import Question from "./Question"
-import { useNavigate } from "react-router-dom"
-import { useAuth, AuthContext } from "../context/AuthContext"
-import { addDoc, Timestamp, collection } from "firebase/firestore"
-import db from "../firebase.config.js"
-import "firebase/firestore"
-import SurveyData from "../data/surveys.data"
 
 function EditorForm({
   survey,
@@ -16,34 +10,10 @@ function EditorForm({
   updateQuestion,
   updateQuestionOptions,
   handleDelete,
-  addSurvey,
+  handleSubmit,
 }) {
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
-
-  // Validates fields before calling addSurvey
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const allErrors = {}
-    // validation
-    if (survey.title === "") {
-      allErrors.title = "Please enter a title"
-    }
-    // checks for undefined, not all templates have descriptions
-    if (survey.desc === "" || typeof survey.desc === "undefined") {
-      allErrors.desc = "Please enter a description"
-    }
-
-    console.log(survey)
-    const isEmpty = Object.keys(allErrors).length === 0
-    if (!isEmpty) {
-      setErrors(allErrors)
-      setValidated(false)
-    } else {
-      setValidated(true)
-      addSurvey()
-    }
-  }
 
   return (
     <div>
@@ -55,7 +25,7 @@ function EditorForm({
             name="title"
             value={survey.title}
             onChange={handleInfoChange}
-            isInvalid={!!errors.title}
+            required
           />
           <Form.Control.Feedback type="invalid">
             Please enter a title
@@ -68,7 +38,7 @@ function EditorForm({
             name="desc"
             value={survey.desc || ""}
             onChange={handleInfoChange}
-            isInvalid={!!errors.desc}
+            required
           />
           <Form.Control.Feedback type="invalid">
             Please enter a description
@@ -82,7 +52,8 @@ function EditorForm({
                 qNum={i + 1}
                 updateQuestion={updateQuestion}
                 updateQuestionOptions={updateQuestionOptions}
-                handleDelete={handleDelete}></Question>
+                handleDelete={handleDelete}
+                errors={errors}></Question>
             </div>
           ))}
         </Stack>

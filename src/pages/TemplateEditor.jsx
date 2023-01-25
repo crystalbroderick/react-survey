@@ -57,7 +57,8 @@ function TemplateEditor() {
   }
 
   // Add new user survey to database
-  async function addSurvey() {
+  async function handleSubmit() {
+    e.prevent.default()
     const surveysRef = collection(db, "surveys")
     const newSurvey = {
       title: survey.title,
@@ -68,22 +69,17 @@ function TemplateEditor() {
     // create new survey
     const docRef = await addDoc(surveysRef, newSurvey)
 
-    if (docRef) {
-      //add questions to survey
-      await questions
-        .forEach((doc) => {
-          console.log("docs:", doc)
-          const questionsRef = collection(db, "surveys", docRef.id, "questions")
-
-          const ref = addDoc(questionsRef, {
-            title: doc.title,
-            type: doc.type,
-            options: doc.options || "",
-          })
-          navigate("/surveys")
+    await Promise.all(
+      questions.map(async (doc) => {
+        const questionsRef = collection(db, "surveys", docRef.id, "questions")
+        const ref = addDoc(questionsRef, {
+          title: doc.title,
+          type: doc.type,
+          options: doc.options || "",
         })
-        .catch((e) => console.log("Error adding questions..", e))
-    }
+      }),
+      navigate("/surveys")
+    )
   }
 
   useEffect(() => {
@@ -118,7 +114,7 @@ function TemplateEditor() {
           updateQuestion={updateQuestion}
           updateQuestionOptions={updateQuestionOptions}
           handleDelete={handleDelete}
-          addSurvey={addSurvey}
+          handleSubmit={handleSubmit}
         />
       )}
     </Container>

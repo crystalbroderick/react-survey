@@ -38,16 +38,17 @@ export default function Question({
           value={question.title}
           name="title"
           onChange={(e) => handleQuestion(e)}
+          required
         />
       </Form.Group>
       <Form.Group controlId="type-dropdown">
         <Form.Label className="text-darkblue ms-1 ">Response Type</Form.Label>
         <Form.Select
-          value={question.type ? question.type : "Select response type"}
+          value={question.type}
           aria-label="Response Type Drop Down"
           name="type"
-          onChange={(e) => handleQuestion(e)}>
-          <option>Response Type</option>
+          onChange={(e) => handleQuestion(e)}
+          required>
           <option value="rating">Rating</option>
           <option value="short">Short Text</option>
           <option value="long">Long Text Area</option>
