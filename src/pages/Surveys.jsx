@@ -3,15 +3,14 @@ import { Container, ListGroup, Button, Row, Col } from "react-bootstrap"
 import Search from "../components/Search"
 import { useAuth } from "../context/AuthContext"
 import SurveyData from "../data/surveys.data"
+import EditorForm from "../components/EditorForm"
+import { Link } from "react-router-dom"
+
 function Surveys() {
   const [inputValue, setInputValue] = useState("")
   const [surveys, setSurveys] = useState([])
   const { currentUser } = useAuth()
   const uid = currentUser.uid
-
-  const previewSurvey = (e) => {
-    console.log(e.target.value)
-  }
 
   async function deleteSurvey(id) {
     // Remove from database
@@ -61,12 +60,12 @@ function Surveys() {
                   xs
                   lg="2"
                   className="d-flex justify-content-between align-items-end">
-                  <Button
-                    variant="primary"
-                    value={survey.id}
-                    onClick={(e) => previewSurvey(e)}>
+                  <Link
+                    className="btn btn-helliogray text-white shadow-sm button-card"
+                    to={`/survey/${survey.id}`}>
                     Edit
-                  </Button>
+                  </Link>
+
                   <Button
                     variant="danger"
                     onClick={() => deleteSurvey(survey.id)}>

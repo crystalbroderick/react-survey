@@ -2,6 +2,7 @@ import "./assets/custom.scss"
 import { useState, useEffect } from "react"
 import { Route, Routes } from "react-router-dom"
 import TemplateEditor from "./pages/TemplateEditor"
+import SurveyEditor from "./pages/SurveyEditor"
 import { AuthProvider } from "./context/AuthContext"
 import { getAuth } from "firebase/auth"
 import Login from "./pages/Login"
@@ -43,6 +44,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/templates" element={<Templates />} />
         <Route path="/surveys" element={<Surveys />} />
+        <Route path="/survey/:id" element={<SurveyEditor />} />
         <Route
           path="*"
           element={
