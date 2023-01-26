@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom"
 import React from "react"
 import { Nav, Button, Container, Navbar } from "react-bootstrap"
 import { useAuth } from "../context/AuthContext"
+import formicon from "../assets/mono-kdb-form.svg"
 
 function Header({ isLoggedIn }) {
   const navigate = useNavigate()
@@ -17,7 +18,11 @@ function Header({ isLoggedIn }) {
   return (
     <Navbar bg="almond" variant="light" expand="lg">
       <Container>
-        <Navbar.Brand href="/">Survey Creator</Navbar.Brand>
+        <Navbar.Brand href="/">
+          {" "}
+          <img src={formicon} alt="form" className="header-icon" />
+          Survey Creator
+        </Navbar.Brand>
         {isLoggedIn && currentUser ? (
           <Nav className="justify-content-end">
             <Nav.Link as={Link} to="/surveys">

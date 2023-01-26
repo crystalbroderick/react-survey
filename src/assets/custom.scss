@@ -10,6 +10,7 @@ $custom-colors: (
   "helliogray": #9a8c98,
   "silverpink": #c9ada7,
   "almond": #f2e9e4,
+  "offwhite": #f7f5f4,
 );
 
 $font-family-base: "Montserratlight";
@@ -25,4 +26,10 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
   color: $primary;
   margin-top: 1em;
   letter-spacing: 3px;
+}
+
+img.header-icon {
+  width: 30px;
+  height: 40px;
+  margin-right: 1em;
 }
