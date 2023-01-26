@@ -9,6 +9,7 @@ import Login from "./pages/Login"
 import Templates from "./pages/Templates"
 import Surveys from "./pages/Surveys"
 import Header from "./components/Header"
+import Signup from "./pages/Signup"
 
 function App() {
   const auth = getAuth()
@@ -42,6 +43,7 @@ function App() {
         <Route path="/" element={<Surveys />} />
         <Route path="/template/:id" element={<TemplateEditor />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/templates" element={<Templates />} />
         <Route path="/surveys" element={<Surveys />} />
         <Route path="/survey/:id" element={<SurveyEditor />} />
