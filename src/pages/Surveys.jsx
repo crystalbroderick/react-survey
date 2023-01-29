@@ -65,6 +65,11 @@ function Surveys() {
                     to={`/survey/${survey.id}`}>
                     Edit
                   </Link>
+                  <Link
+                    className="btn btn-helliogray text-white shadow-sm button-card"
+                    to={`/${survey.id}`}>
+                    Go To
+                  </Link>
 
                   <Button
                     variant="danger"

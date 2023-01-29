@@ -57,8 +57,8 @@ function TemplateEditor() {
   }
 
   // Add new user survey to database
-  async function handleSubmit() {
-    e.prevent.default()
+  async function handleSubmit(e) {
+    e.preventDefault()
     const surveysRef = collection(db, "surveys")
     const newSurvey = {
       title: survey.title,
