@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react"
-import { Container, ListGroup, Button, Row, Col } from "react-bootstrap"
+import {
+  Container,
+  ListGroup,
+  OverlayTrigger,
+  Tooltip,
+  Row,
+  Col,
+  Button,
+} from "react-bootstrap"
 import Search from "../components/Search"
 import { useAuth } from "../context/AuthContext"
 import SurveyData from "../data/surveys.data"
-import EditorForm from "../components/EditorForm"
 import { Link } from "react-router-dom"
-
+import { BiLinkExternal, BiTrash, BiEdit } from "react-icons/bi"
 function Surveys() {
   const [inputValue, setInputValue] = useState("")
   const [surveys, setSurveys] = useState([])
@@ -60,25 +67,46 @@ function Surveys() {
                   xs
                   lg="2"
                   className="d-flex justify-content-between align-items-end">
-                  <Link
-                    className="btn btn-helliogray text-white shadow-sm button-card"
-                    to={`/survey/${survey.id}`}>
-                    Edit
-                  </Link>
-                  <Link
-                    className="btn btn-helliogray text-white shadow-sm button-card"
-                    to={`/${survey.id}`}>
-                    Go To
-                  </Link>
-
-                  <Button
-                    variant="danger"
-                    onClick={() => deleteSurvey(survey.id)}>
-                    Delete
-                  </Button>
+                  <OverlayTrigger
+                    overlay={
+                      <Tooltip id={`tooltip-edit`}>Edit Survey</Tooltip>
+                    }>
+                    <Link to={`/survey/${survey.id}`}>
+                      <BiEdit className="surveyitem-icon"></BiEdit>
+                    </Link>
+                  </OverlayTrigger>
+                  <OverlayTrigger
+                    overlay={
+                      <Tooltip id={`tooltip-openURL`}>
+                        Open Survey in Browser
+                      </Tooltip>
+                    }>
+                    <Link to={`/${survey.id}`}>
+                      <BiLinkExternal
+                        alt="open survey in browser"
+                        className="surveyitem-icon"
+                      />
+                    </Link>
+                  </OverlayTrigger>
+                  <OverlayTrigger
+                    overlay={
+                      <Tooltip id={`tooltip-delete`}>Delete Survey</Tooltip>
+                    }>
+                    <Button
+                      size="sm"
+                      variant="danger"
+                      onClick={() => deleteSurvey(survey.id)}>
+                      <BiTrash
+                        className="surveyitem-icon"
+                        style={{ height: "20px", width: "20px" }}
+                      />
+                    </Button>
+                  </OverlayTrigger>
                 </Col>
               </Row>
-              {survey.desc}{" "}
+              <Row>
+                <Col>{survey.desc} </Col>
+              </Row>
             </ListGroup.Item>
           ))}
       </ListGroup>
