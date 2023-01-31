@@ -17,18 +17,18 @@ function Login() {
       e.preventDefault()
       e.stopPropagation()
     }
+    signIn()
+  }
 
-    setValidated(true)
-    if (validated)
-      try {
-        setError("")
-        setLoading(true)
-        await login(emailRef.current.value, passwordRef.current.value)
-      } catch {
-        setError("Failed to log in")
-        setValidated(false)
-      }
-
+  async function signIn() {
+    try {
+      setError("")
+      setLoading(true)
+      await login(emailRef.current.value, passwordRef.current.value)
+    } catch {
+      setError("Failed to log in")
+      setValidated(false)
+    }
     setLoading(false)
   }
 
@@ -39,7 +39,7 @@ function Login() {
           <Card.Body>
             <h2 className="text-center mb-4">Log In</h2>
             {error && <Alert variant="danger">{error}</Alert>}
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form validated={validated} onSubmit={handleSubmit}>
               <Form.Group id="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control type="email" ref={emailRef} required />
