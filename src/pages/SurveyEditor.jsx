@@ -77,7 +77,8 @@ function SurveyEditor() {
     getQuestions()
   }, [id])
   return (
-    <Container>
+    <Container className="p-3">
+      <h1 className="page-title">Survey Editor</h1>
       {!loading && (
         <EditorForm
           survey={survey}
