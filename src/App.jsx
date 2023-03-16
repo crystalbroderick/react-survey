@@ -1,6 +1,6 @@
 import "./assets/custom.scss"
 import { useState, useEffect } from "react"
-import { Route, Routes, Outlet } from "react-router-dom"
+import { Route, Routes, Outlet, useLocation } from "react-router-dom"
 import TemplateEditor from "./pages/TemplateEditor"
 import SurveyEditor from "./pages/SurveyEditor"
 import { AuthProvider } from "./context/AuthContext"
@@ -11,12 +11,14 @@ import Surveys from "./pages/Surveys"
 import Header from "./components/Header"
 import Signup from "./pages/Signup"
 import Survey from "./pages/Survey"
+import Submitted from "./pages/Submitted"
 
 function App() {
   const auth = getAuth()
   const user = auth.currentUser
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-
+  const location = useLocation()
+  console.log(location)
   const AppLayout = () => (
     <>
       <Header isLoggedIn={isLoggedIn} />
@@ -35,13 +37,20 @@ function App() {
         setIsLoggedIn(true)
         console.log("user logged in")
       } else {
-        if (window.location.pathname === "/login") return // User on log in page, no change
-        if (window.location.pathname !== "/login") {
-          // redirect to log in
-          window.location = "login"
+        if (
+          window.location.pathname === "/login" ||
+          location.pathname.includes("feedback")
+        ) {
+          return
+        } else {
+          // User on log in page, no change
+          if (window.location.pathname !== "/login") {
+            // redirect to log in
+            window.location = "login"
+          }
+          setIsLoggedIn(false)
+          console.log("user not logged in")
         }
-        setIsLoggedIn(false)
-        console.log("user not logged in")
       }
     })
   }, [])
@@ -51,7 +60,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/:id" element={<Survey />} />
+          <Route path="/feedback/:id" element={<Survey />} />
+          <Route path="/submitted" element={<Submitted />} />
           <Route element={<AppLayout />}>
             {/* Nested routes with header */}
             <Route path="/" element={<Surveys />} />

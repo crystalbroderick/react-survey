@@ -81,7 +81,7 @@ function Surveys() {
                         Open Survey in Browser
                       </Tooltip>
                     }>
-                    <Link to={`/${survey.id}`}>
+                    <Link to={`/feedback/${survey.id}`}>
                       <BiLinkExternal
                         alt="open survey in browser"
                         className="surveyitem-icon"

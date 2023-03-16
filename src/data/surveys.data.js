@@ -23,10 +23,10 @@ class SurveyData {
     return addDoc(questionsRef, question)
   }
 
-  addSurveyQuestions = (id, questions) => {
-    const q = collection(db, "surveys", id, "questions")
-    return
-  }
+  // addSurveyQuestions = (id, questions) => {
+  //   const q = collection(db, "surveys", id, "questions")
+  //   return
+  // }
 
   // Get all surveys in database
   getAllSurveys = () => {
@@ -48,10 +48,23 @@ class SurveyData {
     return getDocs(q)
   }
 
-  // Delete survey
+  // Delete survey - doesn't delete questions subcollection through app
   deleteSurvey = (id) => {
     const surveyDoc = doc(db, "surveys", id)
     return deleteDoc(surveyDoc)
+  }
+
+  // Add survey respondees responses
+  addResponse = (surveyId, questionId, answer) => {
+    const responsesRef = collection(
+      db,
+      "surveys",
+      surveyId,
+      "questions",
+      questionId,
+      "responses"
+    )
+    return addDoc(responsesRef, answer)
   }
 }
 export default new SurveyData()

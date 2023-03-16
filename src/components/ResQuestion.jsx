@@ -1,45 +1,68 @@
 import React from "react"
 import { Container, Row, Col, FloatingLabel, Form } from "react-bootstrap"
-import Rating from "./Rating"
+import ResRating from "./ResRating"
 
 // For Survey Questions - displays response type on the survey form
-function ResQuestion(q) {
-  return (
-    <>
-      <Form.Group className="mb-3" controlId={`question${q.idx}`}>
-        <Form.Label>
-          <Col>
-            <h4> {q.title}</h4>
-          </Col>{" "}
-        </Form.Label>
-
-        <Row className="align-self-start">{q.options && <Rating {...q} />}</Row>
-        {q.type === "short" && (
-          <>
-            <Form.Control
-              fullWidth
-              controlId={`question${q.idx}-short response`}
-              placeholder="Enter short response here"
-            />
-          </>
-        )}
-        {q.type === "long" && (
+export default function ResQuestion({
+  id,
+  title,
+  type,
+  options,
+  responseAnswer,
+  answer,
+}) {
+  const displayResType = () => {
+    switch (type) {
+      case "long":
+        return (
           <>
             <FloatingLabel
-              controlId="textarea"
+              controlid="textarea"
               label="Comments"
               className="ms-3">
               <Form.Control
                 as="textarea"
                 placeholder="Leave a comment here"
                 style={{ height: "100px" }}
+                onChange={(e) => responseAnswer(id, e.target.value)}
               />
             </FloatingLabel>
           </>
-        )}
+        )
+      case "short":
+        return (
+          <>
+            <Form.Control
+              as="input"
+              controlid={`question${id}-short response`}
+              placeholder="Enter short response here "
+              onChange={(e) => responseAnswer(id, e.target.value)}
+            />
+          </>
+        )
+      case "rating":
+        return (
+          <>
+            <ResRating
+              qid={id}
+              options={options}
+              responseAnswer={responseAnswer}
+              answer={answer ? answer : null}
+            />
+          </>
+        )
+    }
+  }
+  return (
+    <Row className="m-3">
+      <Form.Group className="mb-3" controlId={`question${id}`}>
+        <Form.Label>
+          <Col>
+            <h4>{title}</h4>
+          </Col>{" "}
+        </Form.Label>
+        <Row className="align-self-start">{displayResType()}</Row>
       </Form.Group>
-    </>
+    </Row>
   )
 }
-
-export default ResQuestion
