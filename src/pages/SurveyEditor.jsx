@@ -12,6 +12,7 @@ function SurveyEditor() {
   const [survey, setSurvey] = useState({})
   const randomId = useId()
   const [newId, setNewId] = useState(randomId)
+  const navigate = useNavigate()
 
   function handleInfoChange(e) {
     const { name, value } = e.target
@@ -51,8 +52,8 @@ function SurveyEditor() {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log("submitted ;)")
-    alert("submitted!!!")
+    //To do: update to database
+    navigate("/surveys")
   }
 
   useEffect(() => {
