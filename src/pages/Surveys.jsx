@@ -23,8 +23,8 @@ function Surveys() {
     // Remove from database
     try {
       const newSurvey = await SurveyData.deleteSurvey(id)
-    } catch {
-      console.log("Error removing survey")
+    } catch (e) {
+      console.log("Error removing survey", e)
     }
     // Remove from survey list
     const newSurveyList = surveys.filter((item) => item.id !== id)

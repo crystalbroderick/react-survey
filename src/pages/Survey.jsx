@@ -27,7 +27,6 @@ function Survey() {
 
           setQuestions(newData)
           setTotalQuestions(newData.length)
-          console.log(totalQuestions)
           setLoading(false)
         }
       )
@@ -70,15 +69,12 @@ function Survey() {
             //const questionsRef = collection(db, "surveys", doc.id, "questions")
             const resAns = { response: doc.answer }
             const responses = SurveysData.addResponse(id, doc.id, resAns)
-            console.log(responses)
             console.log("form submitted!")
           })
         )
         navigate("/submitted")
-      } catch {
-        ;(e) => {
-          console.log("error submitting survey responses,", e)
-        }
+      } catch (e) {
+        console.log("error submitting survey responses,", e)
       }
     } else {
       setError("Please answer all questions!")

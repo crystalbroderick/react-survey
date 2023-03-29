@@ -12,8 +12,8 @@ function Templates() {
       try {
         const data = await TemplateData.getAllTemplates()
         setTemplates(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-      } catch {
-        ;(e) => console.log("Error loading templates ", e)
+      } catch (e) {
+        console.log("Error loading templates ", e)
       }
     }
     getTemplates()
