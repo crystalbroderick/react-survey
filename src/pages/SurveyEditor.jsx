@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate, Link } from "react-router-dom"
 import EditorForm from "../components/EditorForm"
 import SurveyData from "../data/surveys.data"
 import { useId } from "react"
-import { Container } from "react-bootstrap"
+import { Container, Alert } from "react-bootstrap"
 
 function SurveyEditor() {
   const { id } = useParams()
   const [questions, setQuestions] = useState([])
   const [loading, setLoading] = useState(true)
-  const [survey, setSurvey] = useState({})
+  const [survey, setSurvey] = useState({ title: " ", desc: " " })
   const randomId = useId()
   const [newId, setNewId] = useState(randomId)
   const navigate = useNavigate()
+  const [error, setError] = useState("")
 
   function handleInfoChange(e) {
     const { name, value } = e.target
@@ -56,30 +57,36 @@ function SurveyEditor() {
     navigate("/surveys")
   }
 
-  useEffect(() => {
-    const getSurveyInfo = async () => {
-      const docSnap = await SurveyData.getSurvey(id)
-      if (docSnap.exists()) {
+  async function getSurvey() {
+    try {
+      const getSurveyInfo = SurveyData.getSurvey(id).then((docSnap) =>
         setSurvey({ title: docSnap.data().title, desc: docSnap.data().desc })
-      } else {
-        console.log("No such document!")
-      }
+      )
+
+      const getQuestions = SurveyData.getSurveyQuestions(id).then(
+        (querySnapshot) => {
+          const newData = querySnapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }))
+
+          setQuestions(newData)
+          setLoading(false)
+        }
+      )
+      const [info, q] = await Promise.all([getSurveyInfo, getQuestions])
+    } catch (e) {
+      setError("Error loading survey")
     }
-    const getQuestions = async () => {
-      const querySnapshot = await SurveyData.getSurveyQuestions(id)
-      querySnapshot.forEach((doc) => {
-        setQuestions(
-          querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        )
-      })
-      setLoading(false)
-    }
-    getSurveyInfo()
-    getQuestions()
+  }
+
+  useEffect(() => {
+    getSurvey()
   }, [id])
   return (
     <Container className="p-3">
       <h1 className="page-title">Survey Editor</h1>
+      {error && <Alert variant="danger">{error}</Alert>}
       {!loading && (
         <EditorForm
           survey={survey}

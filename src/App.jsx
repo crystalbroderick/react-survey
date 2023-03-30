@@ -15,11 +15,12 @@ import Submitted from "./pages/Submitted"
 
 function App() {
   const auth = getAuth()
-  const user = auth.currentUser
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const location = useLocation()
+
   const AppLayout = () => (
     <>
-      <Header isLoggedIn={user} />
+      <Header isLoggedIn={isLoggedIn} />
       {/* nested routes rendered here */}
       <Outlet />
     </>
@@ -32,6 +33,8 @@ function App() {
         if (window.location.pathname === "/login") {
           window.location = "surveys"
         }
+        setIsLoggedIn(true)
+        console.log("user logged in")
       } else {
         if (
           window.location.pathname === "/login" ||
@@ -44,6 +47,8 @@ function App() {
             // redirect to log in
             window.location = "login"
           }
+          setIsLoggedIn(false)
+          console.log("user not logged in")
         }
       }
     })

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom"
 import EditorForm from "../components/EditorForm"
 import TemplateData from "../data/templates.data"
 import { useId } from "react"
-import { Container } from "react-bootstrap"
+import { Container, Alert } from "react-bootstrap"
 import { useAuth, AuthContext } from "../context/AuthContext"
 import { addDoc, Timestamp, collection } from "firebase/firestore"
 import db from "../firebase.config.js"
@@ -18,6 +18,7 @@ function TemplateEditor() {
   const [newId, setNewId] = useState(randomId)
   const navigate = useNavigate()
   const { currentUser } = useAuth()
+  const [error, setError] = useState("")
 
   function handleInfoChange(e) {
     const { name, value } = e.target
@@ -56,30 +57,45 @@ function TemplateEditor() {
     setQuestions(newQuestions)
   }
 
+  const validation = () => {
+    if (!survey.title.trim() || !survey.desc.trim()) {
+      setError("Please fill required fields")
+      return false
+    } else if (questions.length < 1) {
+      setError("Please add at least one question!")
+      return false
+    } else {
+      return true
+    }
+  }
+
   // Add new user survey to database
   async function handleSubmit(e) {
     e.preventDefault()
-    const surveysRef = collection(db, "surveys")
-    const newSurvey = {
-      title: survey.title,
-      desc: survey.desc,
-      uid: currentUser.uid,
-      created: Timestamp.now(),
-    }
-    // create new survey
-    const docRef = await addDoc(surveysRef, newSurvey)
+    const check = validation()
+    if (check) {
+      const surveysRef = collection(db, "surveys")
+      const newSurvey = {
+        title: survey.title,
+        desc: survey.desc,
+        uid: currentUser.uid,
+        created: Timestamp.now(),
+      }
+      // create new survey
+      const docRef = await addDoc(surveysRef, newSurvey)
 
-    await Promise.all(
-      questions.map(async (doc) => {
-        const questionsRef = collection(db, "surveys", docRef.id, "questions")
-        const ref = addDoc(questionsRef, {
-          title: doc.title,
-          type: doc.type,
-          options: doc.options || "",
+      await Promise.all(
+        questions.map(async (doc) => {
+          const questionsRef = collection(db, "surveys", docRef.id, "questions")
+          const ref = addDoc(questionsRef, {
+            title: doc.title,
+            type: doc.type,
+            options: doc.options || "",
+          })
         })
-      }),
+      )
       navigate("/surveys")
-    )
+    }
   }
 
   useEffect(() => {
@@ -100,12 +116,20 @@ function TemplateEditor() {
       })
       setLoading(false)
     }
-    getTemplateInfo()
-    getQuestions()
+    console.log(id)
+
+    if (id === "1") {
+      setSurvey({ title: "", desc: "" })
+      setLoading(false)
+    } else {
+      getTemplateInfo()
+      getQuestions()
+    }
   }, [id])
   return (
     <Container className="p-3">
       <h1 className="page-title">Create a New Survey</h1>
+      {error && <Alert variant="danger">{error}</Alert>}
       {!loading && (
         <EditorForm
           survey={survey}

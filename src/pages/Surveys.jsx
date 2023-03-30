@@ -41,11 +41,18 @@ function Surveys() {
   return (
     <Container className="p-3">
       <h1 className="page-title">Surveys</h1>
-      <Search
-        onChange={(e) => {
-          setInputValue(e.target.value)
-        }}
-      />
+      <div className="m-2">
+        <Link to="/template/1">
+          <Button variant="primary" className="m-1 me-3">
+            Create a New Survey
+          </Button>
+        </Link>
+        <Search
+          onChange={(e) => {
+            setInputValue(e.target.value)
+          }}
+        />
+      </div>
       <ListGroup className="p-2 ">
         {surveys
           ?.filter((elem) =>
