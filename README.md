@@ -12,6 +12,10 @@ cbsurveycreator.netlify.app
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d49b3359-cd76-4121-a3e4-d2aee75f0215/deploy-status)](https://app.netlify.com/sites/cbsurveycreator/deploys)
 
+
+demo:
+![Survey](https://github.com/crystalbroderick/react-survey/assets/49288075/4ffa5fc5-5c09-47f2-908e-7458e2e16787)
+
 ## User Stories
 Employees
 * [x] As an employee, I want to create fresh surveys, so that I collect relevant feedback 
